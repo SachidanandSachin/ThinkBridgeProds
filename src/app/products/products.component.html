@@ -1,0 +1,84 @@
+<app-navbar (sortProductsAction)="navBarAction($event)"></app-navbar>
+
+<button class="btn btn-warning content" (click)="onClickAdd()" *ngIf="showAddBtn">Add New Product</button>
+<span style="align-content: center" class="content shadow-lg p-3 mb-5 bg-white rounded" *ngIf="showForm">
+<form [formGroup]="ProdForm" >
+   <h2> {{ formHeader }} Product </h2>
+  <div class="form-group">
+    <label for="prodType">Product Type</label>
+    <select formControlName="prodType" class="form-control" placeholder="Select Product Type" [disabled]="formHeader === 'Edit '"
+    [ngClass]="{'is-invalid':ProdForm.get('prodType').touched && ProdForm.get('prodType').invalid}" required>
+       <option>Select Product Type</option>
+      <option *ngFor="let prod of productTypes" [selected]="prod.isSelected"> {{ prod.type }} </option>
+    </select>
+    <div class="invalid-feedback">
+      <span>Product type is required</span>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="prodPrice">Product Price</label>
+    <input formControlName="prodPrice" class="form-control" placeholder="Enter Price" required 
+    [ngClass]="{'is-invalid':ProdForm.get('prodPrice').touched && ProdForm.get('prodPrice').invalid}">
+    <div class="invalid-feedback" *ngIf="ProdForm.get('prodPrice').touched && ProdForm.get('prodPrice').invalid">
+        <div *ngIf="ProdForm.get('prodPrice').errors.required"> Price is required  </div>
+        <div *ngIf="ProdForm.get('prodPrice').errors.min"> Price can't be less than 1 </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="prodManufacturer">Brand</label>
+    <input formControlName="prodManufacturer" class="form-control" placeholder="Enter BrandName" 
+    [ngClass]="{'is-invalid':ProdForm.get('prodManufacturer').touched && ProdForm.get('prodManufacturer').invalid}" required>
+    <div class="invalid-feedback" *ngIf="ProdForm.get('prodManufacturer').touched && ProdForm.get('prodManufacturer').invalid">
+        <div *ngIf="ProdForm.get('prodManufacturer').errors.required">Brand is required  </div>
+        <div *ngIf="ProdForm.get('prodManufacturer').errors.maxlength">Length can't be greater than 20</div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="prodRating">Product Rating</label>
+    <input formControlName="prodRating" class="form-control" placeholder="Product Rating" pattern="[1-5]{1}"
+    [ngClass]="{'is-invalid':ProdForm.get('prodRating').touched && ProdForm.get('prodRating').invalid}">
+     <div class="invalid-feedback" *ngIf="ProdForm.get('prodRating').touched && ProdForm.get('prodRating').invalid">
+      <div *ngIf="ProdForm.get('prodRating').errors.pattern">Please enter a rating between 1-5</div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="YearOfManuf">Year Made</label>
+    <input formControlName="YearOfManuf" class="form-control" placeholder="YYYY" 
+     [ngClass]="{'is-invalid':ProdForm.get('YearOfManuf').touched && ProdForm.get('YearOfManuf').invalid}">
+    <div class="invalid-feedback" *ngIf="ProdForm.get('YearOfManuf').touched && ProdForm.get('YearOfManuf').invalid">
+      <div *ngIf="ProdForm.get('YearOfManuf').errors.max">Year can't be greater than 2021</div>
+      <div *ngIf="ProdForm.get('YearOfManuf').errors.min">Year can't be less than 1990</div>
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-success" [disabled]="disableSubmitBtn" (click)="SubmitForm()">Submit</button> &nbsp; &nbsp;
+  <button type="reset" class="btn btn-primary" (click)="ResetForm()">Cancel</button>
+</form>
+</span> <br> <br>
+
+  <span>
+  <h3 class="cardcontent">Products List<h3>
+  <span  *ngFor="let product of products">
+   <br> <div class="card">
+    <div class="card-header">
+      <span style="font-size: large;">{{ product.prodType  }} </span>
+      <span class="buttons">
+      <button class="btn btn-danger" (click)="RemoveProduct(product)"><i class="fa fa-remove"></i></button> &nbsp;
+      <a routerLink="/product/{{product.prodId}}">
+       <button class="btn btn-success"><i class="fa fa-info"></i></button>
+      </a>  &nbsp;
+      </span>
+    </div>
+    <div class="card-body" style="height: 210px">
+    <span class="row">
+      <span class="col" style="width: 50%">
+        <img src="../../assets/images/{{product.prodType}}.png" style="height: 162px; width: 180px;" />
+      </span>
+    </span>
+    </div>
+    <div class="card-footer">
+     <button class="btn btn-primary" (click)="EditProduct(product)">Edit Product </button>
+    </div>
+  </div>
+  </span>
+

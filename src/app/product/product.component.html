@@ -1,0 +1,23 @@
+<div class="cardcontent">
+<div class="card">
+    <div class="card-header">
+      <span style="font-size: large;">{{ product.prodType  }} </span>
+    </div>
+    <div class="card-body" style="height: 210px">
+    <span class="row">
+     <span class="col" style="width: 50%">
+        <img src="../../assets/images/{{product.prodType}}.png" style="height: 160px; width: 199px;" />
+     </span>
+     <span class="col" style="width: 50%">
+        <b>Price: </b> &nbsp; {{ product.prodPrice }} <br> <br>
+        <b> Brand Name: </b> &nbsp; {{ product.prodManufacturer }} <br> <br>
+        <b> Rating: </b> {{ product.prodRating }} <br> <br>
+        <b> Manufactured Year: </b> {{ product.YearOfManuf }}
+     </span>
+    </span>
+
+    </div>
+    <div class="card-footer">
+     <button class="btn btn-outline-success" (click)="BackToHome()"><i class="fa fa-arrow-left"></i>&nbsp; Products list</button>
+ </div>
+</div>
